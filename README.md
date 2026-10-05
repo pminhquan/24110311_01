@@ -1,6 +1,8 @@
-# Java Web Servlet + JPA + JSP Exam Project
+# Java Web Servlet + JPA + JSP Project
 
-A 180-minute Java Web practical exam project using **Jakarta Servlet 6.0**, **JPA 3.1 / Hibernate 6.x**, **JSP/JSTL 3.x**, and **SiteMesh 3**.
+A Java Web application developed using **Jakarta Servlet 6.0**, **JPA 3.1 / Hibernate 6.x**, **JSP/JSTL 3.x**, and **SiteMesh 3**.
+
+The project includes user authentication, book and author management, ratings, shopping cart, and COD order checkout functionality.
 
 Student MSSV: **24110311**
 
@@ -100,21 +102,22 @@ For security, no credentials/passwords are hardcoded in source. Configure databa
 To initialize the database schema:
 Run the script in `database.sql` inside SQL Server Management Studio (SSMS).
 
-## Shopping Cart & COD Checkout Features
+## Shopping Cart & COD Checkout
 
-1. **Session Shopping Cart (Requirement 1):**
-   - Stored in HTTP session (`sessionScope.cart`) using stable `bookid`.
-   - Add to cart available from Home page, Book List, and Book Detail views.
-   - Quantity validation: rejects `quantity <= 0`, out-of-stock items, and prevents exceeding available stock.
-   - Dynamic book entity reloading from DB to reflect current prices and quantities.
-   - Cart endpoints: `/cart`, `/cart/add`, `/cart/update`, `/cart/remove`, `/cart/clear`.
-2. **COD Checkout (Requirement 2):**
-   - Restricted to authenticated users (`sessionScope.currentUser`).
-   - Re-queries each book with pessimistic write locking and verifies stock in an active transaction.
-   - Decrements `Book.quantity` and persists `Orders` + `OrderDetail` entities in a single `RESOURCE_LOCAL` transaction.
-   - Status initialized to `NEW` and payment method set to `COD`.
-   - Cart is cleared strictly upon successful transaction commit.
-   - Order confirmation displays generated Order ID, delivery details, and items summary. Only the purchasing user can view their order success page.
+### Shopping Cart
+- Stored in HTTP session (`sessionScope.cart`) using stable `bookid`.
+- Add to cart available from Home page, Book List, and Book Detail views.
+- Quantity validation: rejects `quantity <= 0`, out-of-stock items, and prevents exceeding available stock.
+- Dynamic book entity reloading from DB to reflect current prices and quantities.
+- Cart endpoints: `/cart`, `/cart/add`, `/cart/update`, `/cart/remove`, `/cart/clear`.
+
+### COD Checkout
+- Restricted to authenticated users (`sessionScope.currentUser`).
+- Re-queries each book with pessimistic write locking and verifies stock in an active transaction.
+- Decrements `Book.quantity` and persists `Orders` + `OrderDetail` entities in a single `RESOURCE_LOCAL` transaction.
+- Status initialized to `NEW` and payment method set to `COD`.
+- Cart is cleared strictly upon successful transaction commit.
+- Order confirmation displays generated Order ID, delivery details, and items summary. Only the purchasing user can view their order success page.
 
 ## Build and Run
 
