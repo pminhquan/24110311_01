@@ -127,4 +127,59 @@ public class OrderRepositoryImpl_24110311 implements OrderRepository_24110311 {
             em.close();
         }
     }
+
+    @Override
+    public List<Orders_24110311> findByUserId(int userId) {
+        EntityManager em = JpaConfig.getEntityManager();
+        try {
+            String jpql = "SELECT DISTINCT o FROM Orders_24110311 o " +
+                          "LEFT JOIN FETCH o.orderDetails od " +
+                          "LEFT JOIN FETCH od.book b " +
+                          "WHERE o.user.id = :userId " +
+                          "ORDER BY o.orderDate DESC, o.orderId DESC";
+            List<Orders_24110311> list = em.createQuery(jpql, Orders_24110311.class)
+                    .setParameter("userId", userId)
+                    .getResultList();
+            initializeOrderCollections(list);
+            return list;
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public List<Orders_24110311> findByUserIdAndStatus(int userId, String status) {
+        EntityManager em = JpaConfig.getEntityManager();
+        try {
+            String jpql = "SELECT DISTINCT o FROM Orders_24110311 o " +
+                          "LEFT JOIN FETCH o.orderDetails od " +
+                          "LEFT JOIN FETCH od.book b " +
+                          "WHERE o.user.id = :userId AND o.status = :status " +
+                          "ORDER BY o.orderDate DESC, o.orderId DESC";
+            List<Orders_24110311> list = em.createQuery(jpql, Orders_24110311.class)
+                    .setParameter("userId", userId)
+                    .setParameter("status", status)
+                    .getResultList();
+            initializeOrderCollections(list);
+            return list;
+        } finally {
+            em.close();
+        }
+    }
+
+    private void initializeOrderCollections(List<Orders_24110311> orders) {
+        if (orders != null) {
+            for (Orders_24110311 order : orders) {
+                if (order.getOrderDetails() != null) {
+                    order.getOrderDetails().size();
+                    for (OrderDetail_24110311 d : order.getOrderDetails()) {
+                        if (d.getBook() != null) {
+                            d.getBook().getTitle();
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
+

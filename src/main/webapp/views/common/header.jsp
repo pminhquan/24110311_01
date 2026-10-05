@@ -26,6 +26,11 @@
                             </c:if>
                         </a>
                     </li>
+                    <c:if test="${not empty sessionScope.currentUser}">
+                        <li class="nav-item">
+                            <a class="nav-link" href="${pageContext.request.contextPath}/orders/history">Lịch sử đơn hàng</a>
+                        </li>
+                    </c:if>
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <c:choose>

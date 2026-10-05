@@ -157,4 +157,20 @@ public class Orders_24110311 implements Serializable {
     public void setOrderDetails(List<OrderDetail_24110311> orderDetails) {
         this.orderDetails = orderDetails;
     }
+
+    public String getStatusVietnamese() {
+        return vn.iotstar.util.OrderStatusUtil_24110311.getLabel(this.status);
+    }
+
+    public String getStatusBadgeClass() {
+        return vn.iotstar.util.OrderStatusUtil_24110311.getBadgeClass(this.status);
+    }
+
+    public String getFormattedOrderDate() {
+        if (this.orderDate == null) {
+            return "";
+        }
+        return this.orderDate.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+    }
 }
+
