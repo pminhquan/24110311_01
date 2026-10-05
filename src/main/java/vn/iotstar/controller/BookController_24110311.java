@@ -128,6 +128,11 @@ public class BookController_24110311 extends HttpServlet {
             path = "/books/" + action;
         }
 
+        if ("/books/delete".equals(path) || "/book/delete".equals(path) || "delete".equalsIgnoreCase(action)) {
+            response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "Method Not Allowed");
+            return;
+        }
+
         String isbn = request.getParameter("isbn");
         String title = request.getParameter("title");
         String publisher = request.getParameter("publisher");
@@ -182,9 +187,12 @@ public class BookController_24110311 extends HttpServlet {
         if ("/books/edit".equals(path) || "/book/edit".equals(path) || "update".equalsIgnoreCase(action)) {
             try {
                 int bookid = Integer.parseInt(request.getParameter("bookid"));
-                Book_24110311 book = new Book_24110311(bookid, isbn, title, publisher, price, description, publishDate, coverImage, quantity);
-                book.setAuthors(selectedAuthors);
-                bookService.update(book);
+                Book_24110311 existing = bookService.findById(bookid);
+                if (existing != null) {
+                    Book_24110311 book = new Book_24110311(bookid, isbn, title, publisher, price, description, publishDate, coverImage, quantity);
+                    book.setAuthors(selectedAuthors);
+                    bookService.update(book);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

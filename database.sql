@@ -40,7 +40,7 @@ CREATE TABLE Book (
     description NVARCHAR(MAX),
     publish_date DATE,
     cover_image NVARCHAR(255),
-    quantity INT DEFAULT 0
+    quantity INT DEFAULT 0 CHECK (quantity >= 0)
 );
 GO
 

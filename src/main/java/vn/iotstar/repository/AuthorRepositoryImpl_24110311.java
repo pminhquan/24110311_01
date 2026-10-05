@@ -76,6 +76,13 @@ public class AuthorRepositoryImpl_24110311 implements AuthorRepository_24110311 
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
+            Author_24110311 existing = em.find(Author_24110311.class, author.getAuthor_id());
+            if (existing == null) {
+                if (tx.isActive()) {
+                    tx.rollback();
+                }
+                return;
+            }
             em.merge(author);
             tx.commit();
         } catch (Exception e) {

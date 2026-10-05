@@ -100,6 +100,13 @@ public class BookRepositoryImpl_24110311 implements BookRepository_24110311 {
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
+            Book_24110311 existing = em.find(Book_24110311.class, book.getBookid());
+            if (existing == null) {
+                if (tx.isActive()) {
+                    tx.rollback();
+                }
+                return;
+            }
             if (book.getAuthors() != null) {
                 List<Author_24110311> managedAuthors = new ArrayList<>();
                 for (Author_24110311 a : book.getAuthors()) {

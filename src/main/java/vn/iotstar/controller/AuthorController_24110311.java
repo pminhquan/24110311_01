@@ -119,6 +119,11 @@ public class AuthorController_24110311 extends HttpServlet {
             path = "/authors/" + action;
         }
 
+        if ("/authors/delete".equals(path) || "/author/delete".equals(path) || "delete".equalsIgnoreCase(action)) {
+            response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "Method Not Allowed");
+            return;
+        }
+
         String authorName = request.getParameter("author_name");
         String dateOfBirthStr = request.getParameter("date_of_birth");
 
@@ -133,8 +138,11 @@ public class AuthorController_24110311 extends HttpServlet {
         if ("/authors/edit".equals(path) || "/author/edit".equals(path) || "update".equalsIgnoreCase(action)) {
             try {
                 int authorId = Integer.parseInt(request.getParameter("author_id"));
-                Author_24110311 author = new Author_24110311(authorId, authorName, dateOfBirth);
-                authorService.update(author);
+                Author_24110311 existing = authorService.findById(authorId);
+                if (existing != null) {
+                    Author_24110311 author = new Author_24110311(authorId, authorName, dateOfBirth);
+                    authorService.update(author);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

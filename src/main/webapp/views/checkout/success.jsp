@@ -22,10 +22,10 @@
             </div>
             <div class="col-md-6 ps-md-4">
                 <h5 class="text-primary border-bottom pb-2">Thông tin người nhận</h5>
-                <p class="mb-1"><strong>Họ và tên:</strong> ${order.recipientName}</p>
-                <p class="mb-1"><strong>Số điện thoại:</strong> ${order.recipientPhone}</p>
-                <p class="mb-1"><strong>Địa chỉ giao hàng:</strong> ${order.shippingAddress}</p>
-                <p class="mb-1"><strong>Tài khoản đặt:</strong> ${order.user.fullname} (${order.user.email})</p>
+                <p class="mb-1"><strong>Họ và tên:</strong> <c:out value="${order.recipientName}" /></p>
+                <p class="mb-1"><strong>Số điện thoại:</strong> <c:out value="${order.recipientPhone}" /></p>
+                <p class="mb-1"><strong>Địa chỉ giao hàng:</strong> <c:out value="${order.shippingAddress}" /></p>
+                <p class="mb-1"><strong>Tài khoản đặt:</strong> <c:out value="${order.user.fullname}" /> (<c:out value="${order.user.email}" />)</p>
             </div>
         </div>
 
@@ -46,7 +46,7 @@
                         <tr>
                             <td class="text-center">${status.count}</td>
                             <td>
-                                <strong>${not empty detail.book ? detail.book.title : 'Sách #' + detail.book.bookid}</strong>
+                                <strong><c:out value="${not empty detail.book ? detail.book.title : 'Sách #' + detail.book.bookid}" /></strong>
                             </td>
                             <td class="text-end">$${detail.unitPrice}</td>
                             <td class="text-center">${detail.quantity}</td>

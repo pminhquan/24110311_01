@@ -135,9 +135,9 @@
                                 </span>
                                 <span class="text-muted small">(${r.rating}/5)</span>
                             </div>
-                            <small class="text-muted">${not empty r.user ? r.user.fullname : 'User'}</small>
+                            <small class="text-muted"><c:out value="${not empty r.user ? r.user.fullname : 'User'}" /></small>
                         </div>
-                        <p class="mb-0 mt-1 text-secondary">${not empty r.review_text ? r.review_text : 'No written review.'}</p>
+                        <p class="mb-0 mt-1 text-secondary"><c:out value="${not empty r.review_text ? r.review_text : 'No written review.'}" /></p>
                     </div>
                 </c:forEach>
                 <c:if test="${empty ratings}">
