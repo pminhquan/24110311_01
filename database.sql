@@ -1,6 +1,6 @@
 -- =============================================
--- SQL Server Database Script for Exam
--- Entities: User, Book, Author, Rating
+-- SQL Server Database Script for Java Web Project
+-- Entities: User, Book, Author, Rating, Orders, OrderDetail
 -- =============================================
 
 CREATE DATABASE ExamDB;

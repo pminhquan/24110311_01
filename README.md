@@ -2,7 +2,7 @@
 
 A Java Web application developed using **Jakarta Servlet 6.0**, **JPA 3.1 / Hibernate 6.x**, **JSP/JSTL 3.x**, and **SiteMesh 3**.
 
-The project includes user authentication, book and author management, ratings, shopping cart, and COD order checkout functionality.
+The project includes user authentication, book/author management, ratings, shopping cart, COD checkout, order history, and status filtering.
 
 Student MSSV: **24110311**
 
@@ -49,6 +49,7 @@ src/
     │   │   ├── BookDetailController_24110311.java # Book detail & reviews controller
     │   │   ├── CartController_24110311.java     # Session shopping cart controller
     │   │   ├── CheckoutController_24110311.java # COD checkout & order confirmation controller
+    │   │   ├── OrderHistoryController_24110311.java # Order history & status filtering controller
     │   │   └── ...
     │   ├── entity/
     │   │   ├── User_24110311.java              # User JPA Entity
@@ -60,7 +61,9 @@ src/
     │   │   ├── Cart_24110311.java              # Cart session model
     │   │   └── CartItem_24110311.java          # CartItem model
     │   ├── repository/                         # Repository layer (Data Access)
-    │   └── service/                            # Service layer (Business logic)
+    │   ├── service/                            # Service layer (Business logic)
+    │   └── util/
+    │       └── OrderStatusUtil_24110311.java   # Order status mappings & helper
     ├── resources/
     │   └── META-INF/
     │       └── persistence.xml                 # JPA Persistence Unit (ExamDB)
@@ -79,6 +82,8 @@ src/
             ├── checkout/
             │   ├── checkout.jsp                # COD checkout confirmation view
             │   └── success.jsp                 # Order success view
+            ├── order/
+            │   └── history.jsp                 # Order history & status filter view
             └── home.jsp
 ```
 
@@ -118,6 +123,22 @@ Run the script in `database.sql` inside SQL Server Management Studio (SSMS).
 - Status initialized to `NEW` and payment method set to `COD`.
 - Cart is cleared strictly upon successful transaction commit.
 - Order confirmation displays generated Order ID, delivery details, and items summary. Only the purchasing user can view their order success page.
+
+### Order History & Status Filtering
+- Access endpoint `/orders/history` for logged-in users (`sessionScope.currentUser`).
+- Ownership isolation: users can only view orders belonging to their own account.
+- Displays current SQL Server order data with status filtering support.
+- Supported order statuses and Vietnamese labels:
+  - `NEW` — Đơn hàng mới
+  - `CONFIRMED` — Đã xác nhận
+  - `PREPARING` — Chuẩn bị hàng
+  - `SHIPPING` — Vận chuyển
+  - `DELIVERING` — Giao hàng
+  - `DELIVERED` — Đã giao
+  - `CANCELLED` — Đơn hàng hủy
+  - `RETURNED` — Đơn hàng hoàn
+- Direct SQL `Orders.status` changes are reflected after refresh.
+- Details use `OrderDetail` purchase-time unit prices rather than current `Book` prices.
 
 ## Build and Run
 
